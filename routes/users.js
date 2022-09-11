@@ -12,7 +12,7 @@ const client = require("twilio")(accountSid, authToken);
 function sendTextMessage(body, owner, number) {
   client.messages
     .create({
-      body: `For: ${owner} -- ${body} `,
+      body: `For: ${owner} -- ${body}`,
       from: "+16802066117",
       to: `+1${number}`,
     })
