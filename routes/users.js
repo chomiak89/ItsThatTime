@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const cron = require("node-cron");
 
 //----- TWILIO SET UP
 var accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -11,7 +12,7 @@ const client = require("twilio")(accountSid, authToken);
 function sendTextMessage(body, owner, number) {
   client.messages
     .create({
-      body: `${body} For: ${owner}`,
+      body: `For: ${owner} -- ${body} `,
       from: "+16802066117",
       to: `+1${number}`,
     })
@@ -123,12 +124,14 @@ router.get("/createreminder/:email", ensureAuth, (req, res) => {
 
 router.post("/createreminder/:email", ensureAuth, (req, res) => {
   let email = req.params.email;
-  const { body, owner, number } = req.body;
-  //   const newReminder = new Reminder({
-  //     body,
-  //     owner,
-  //   });
-  //-----------------------------------
+  const { body, owner, number, tripStart, appt } = req.body;
+  console.log(req.body);
+
+  let hour = appt.slice(0, 2).toString();
+  let minute = appt.slice(3, 5).toString();
+  let month = tripStart.slice(5, 7).toString();
+  let day = tripStart.slice(8, 10).toString();
+
   User.findOne({ email: email })
     .then((user) => {
       const newReminder = new Reminder({
@@ -136,10 +139,26 @@ router.post("/createreminder/:email", ensureAuth, (req, res) => {
         owner,
         user_id: user._id,
         number,
+        minute: appt.slice(3, 5),
+        hour: appt.slice(0, 2),
+        day: tripStart.slice(8, 10),
+        month: tripStart.slice(5, 7),
+        displayMinute: minute,
+        displayHour: hour,
+        displayDay: day,
+        displayMonth: month,
       });
+      console.log(newReminder.hour);
       newReminder
         .save()
         .then((reminder) => {
+          cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
+            sendTextMessage(
+              newReminder.body,
+              newReminder.owner,
+              newReminder.number
+            );
+          });
           res.redirect("/dashboard");
         })
         .catch((err) => {
@@ -148,16 +167,6 @@ router.post("/createreminder/:email", ensureAuth, (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-//-----------------------------------
-//   newReminder
-//     .save()
-//     .then((reminder) => {
-//       res.redirect("/dashboard");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
 
 //REMIND
 router.get("/remind/:id", (req, res) => {

@@ -10,6 +10,7 @@
             <div class="reminderCard">
                 <p>{{this.body}}</p>
                 <h5><span>For: </span>{{this.owner}}</h5>
+                <h6>Auto reminder set at {{this.displayHour}}:{{this.displayMinute}} on {{this.displayMonth}}/{{this.displayDay}}/2022</h6>
                 <p><a href="/users/remind/{{this._id}}">Remind</a>  <a href="/users/delete/{{this._id}}">Delete</a></p>
             </div>
         {{/each}}   

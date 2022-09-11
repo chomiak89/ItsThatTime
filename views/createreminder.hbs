@@ -7,7 +7,7 @@
       {{> messages}}
       <form action="/users/createreminder/{{email}}" method="POST">
         <div class="form-group">
-          <label for="body">Body</label>
+          <label for="body">Description</label>
           <input
             type="text"
             id="body"
@@ -17,7 +17,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="owner">Owner</label>
+          <label for="owner">Recipient Name</label>
           <input
             type="text"
             id="owner"
@@ -36,6 +36,25 @@
             placeholder="Enter Phone Number"
           />
         </div>
+        <div class="form-group">
+            <label for="tripStart">Date</label>
+            <input 
+            type="date" 
+            id="start" 
+            name="tripStart"
+            value="2022-09-22"
+            min="2022-09-01" max="2023-09-21">
+        </div>
+        <div class="form-group">
+            <label for="appt">Time</label>
+            <input 
+            type="time" 
+            id="appt" 
+            name="appt" 
+            value="00:00">
+        </div>
+        
+        
         <button type="submit" class="btn btn-primary btn-block">
           Create
         </button>
