@@ -152,6 +152,7 @@ router.post("/createreminder/:email", ensureAuth, (req, res) => {
       newReminder
         .save()
         .then((reminder) => {
+          console.log("before cron log");
           cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
             sendTextMessage(
               newReminder.body,
@@ -159,6 +160,7 @@ router.post("/createreminder/:email", ensureAuth, (req, res) => {
               newReminder.number
             );
           });
+          console.log("after cron log");
           res.redirect("/dashboard");
         })
         .catch((err) => {
