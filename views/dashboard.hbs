@@ -1,0 +1,20 @@
+<div class="dashboardContainer">
+    <h1 class="mt-4">ItsThatTime Dashboard</h1>
+    <p class="lead mb-3">Welcome {{name}}</p>
+    {{> messages}}
+    <a href="/users/createreminder/{{email}}" class="btn btn-dark">New Reminder</a>
+    <a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+    <div class="remindersContainer">
+        {{#each reminders}}
+            <div class="reminderCard">
+                <p>{{this.body}}</p>
+                <h5><span>For: </span>{{this.owner}}</h5>
+                <p><a href="/users/remind/{{this._id}}">Remind</a>  <a href="/users/delete/{{this._id}}">Delete</a></p>
+            </div>
+        {{/each}}   
+    </div>
+
+    
+
+</div>

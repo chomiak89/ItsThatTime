@@ -1,0 +1,47 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3">
+         Create Reminder
+      </h1>
+      {{> messages}}
+      <form action="/users/createreminder/{{email}}" method="POST">
+        <div class="form-group">
+          <label for="body">Body</label>
+          <input
+            type="text"
+            id="body"
+            name="body"
+            class="form-control"
+            placeholder="Enter Text"
+          />
+        </div>
+        <div class="form-group">
+          <label for="owner">Owner</label>
+          <input
+            type="text"
+            id="owner"
+            name="owner"
+            class="form-control"
+            placeholder="Enter Name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="number">Number</label>
+          <input
+            type="text"
+            id="number"
+            name="number"
+            class="form-control"
+            placeholder="Enter Phone Number"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          Create
+        </button>
+      </form>
+      {{email}}
+      {{!-- <p class="lead mt-4">Have An Account? <a href="/users/login">Login</a>   Or   <a href="/">Go Back</a></p> --}}
+    </div>
+  </div>
+</div>
